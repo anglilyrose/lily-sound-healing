@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello, I'm Lily</title>
+  <style>
+    :root {
+      --sky-1: #f9d9c9;
+      --sky-2: #f6e7da;
+      --sky-3: #dfeee9;
+      --sun: #fff1c9;
+      --sun-glow: rgba(255, 214, 160, 0.55);
+      --mtn-far: #c9bcd8;
+      --mtn-mid: #a9c4b4;
+      --hill: #86ab92;
+      --hill-front: #5f8a70;
+      --tree: #46705a;
+      --water: #bfdcdc;
+      --cloud: rgba(255, 255, 255, 0.75);
+      --particle: rgba(255, 226, 160, 0.9);
+      --overlay-top: rgba(250, 244, 235, 0.25);
+      --overlay-bottom: rgba(245, 236, 222, 0.55);
+      --lamp: rgba(255, 196, 120, 0.45);
+
+      --text: #3a3129;
+      --muted: #6e6256;
+      --accent: #9a6a3a;
+      --card: rgba(253, 248, 240, 0.8);
+      --card-border: rgba(255, 255, 255, 0.8);
+
+      --skin: #d9a07f;
+      --hair: #3a2a2a;
+      --top: #c86f8f;
+      --pants: #7b6aa8;
+      --mat: #e9c46a;
+      --bowl: #c9a14a;
+      --bowl-dark: #9c7a2f;
+      --aura: rgba(233, 196, 106, 0.45);
+      --wave: rgba(154, 106, 58, 0.5);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --sky-1: #141127;
+        --sky-2: #251c3d;
+        --sky-3: #2c3550;
+        --sun: #f3ecd6;
+        --sun-glow: rgba(220, 215, 255, 0.35);
+        --mtn-far: #3a3360;
+        --mtn-mid: #2d4048;
+        --hill: #22353a;
+        --hill-front: #172628;
+        --tree: #0f1d1e;
+        --water: #2a3d55;
+        --cloud: rgba(200, 200, 235, 0.15);
+        --particle: rgba(255, 210, 130, 0.95);
+      --overlay-top: rgba(18, 14, 10, 0.55);
+      --overlay-bottom: rgba(18, 14, 10, 0.75);
+      --lamp: rgba(255, 170, 80, 0.4);
+
+        --text: #efe7ef;
+        --muted: #c2b7c8;
+        --accent: #e2b77a;
+        --card: rgba(30, 24, 18, 0.7);
+        --card-border: rgba(255, 255, 255, 0.12);
+
+        --skin: #c48a6b;
+        --hair: #1e1416;
+        --top: #a8577a;
+        --pants: #5b4d8a;
+        --mat: #8a6d32;
+        --bowl: #d6b25a;
+        --bowl-dark: #8f7130;
+        --aura: rgba(226, 183, 122, 0.3);
+        --wave: rgba(226, 183, 122, 0.55);
+      }
+    }
+    :root[data-theme="dark"] {
+      --sky-1: #141127;
+      --sky-2: #251c3d;
+      --sky-3: #2c3550;
+      --sun: #f3ecd6;
+      --sun-glow: rgba(220, 215, 255, 0.35);
+      --mtn-far: #3a3360;
+      --mtn-mid: #2d4048;
+      --hill: #22353a;
+      --hill-front: #172628;
+      --tree: #0f1d1e;
+      --water: #2a3d55;
+      --cloud: rgba(200, 200, 235, 0.15);
+      --particle: rgba(255, 210, 130, 0.95);
+      --overlay-top: rgba(18, 14, 10, 0.55);
+      --overlay-bottom: rgba(18, 14, 10, 0.75);
+      --lamp: rgba(255, 170, 80, 0.4);
+
+      --text: #efe7ef;
+      --muted: #c2b7c8;
+      --accent: #e2b77a;
+      --card: rgba(30, 24, 18, 0.7);
+      --card-border: rgba(255, 255, 255, 0.12);
+
+      --skin: #c48a6b;
+      --hair: #1e1416;
+      --top: #a8577a;
+      --pants: #5b4d8a;
+      --mat: #8a6d32;
+      --bowl: #d6b25a;
+      --bowl-dark: #8f7130;
+      --aura: rgba(226, 183, 122, 0.3);
+      --wave: rgba(226, 183, 122, 0.55);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: Georgia, "Times New Roman", serif;
+      background: var(--sky-2);
+      color: var(--text);
+      position: relative;
+    }
+
+    /* ---------- Nature background ---------- */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: url("images/retreat-room.jpg") center 60% / cover no-repeat;
+      animation: drift-zoom 40s ease-in-out infinite alternate;
+    }
+    @keyframes drift-zoom {
+      from { transform: scale(1); }
+      to   { transform: scale(1.08) translate(-1%, -1%); }
+    }
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: linear-gradient(180deg, var(--overlay-top), var(--overlay-bottom));
+    }
+    /* Warm lamp glow, like the light in the corner of the room */
+    .candle-glow {
+      position: fixed;
+      right: -8vw;
+      top: 20vh;
+      width: 40vw;
+      height: 40vw;
+      max-width: 520px;
+      max-height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--lamp), transparent 65%);
+      z-index: 0;
+      pointer-events: none;
+      animation: flicker 5s ease-in-out infinite;
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 0.75; transform: scale(1); }
+      30%      { opacity: 0.95; transform: scale(1.04); }
+      55%      { opacity: 0.8;  transform: scale(0.98); }
+      75%      { opacity: 1;    transform: scale(1.03); }
+    }
+
+    /* Floating petals / fireflies */
+    .particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .particles span {
+      position: absolute;
+      bottom: -20px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50% 0 50% 0;
+      background: var(--particle);
+      box-shadow: 0 0 10px var(--particle);
+      opacity: 0;
+      animation: rise-up 14s linear infinite;
+    }
+    .particles span:nth-child(1) { left: 8%;  animation-delay: 0s; }
+    .particles span:nth-child(2) { left: 22%; animation-delay: 3s;  animation-duration: 18s; }
+    .particles span:nth-child(3) { left: 37%; animation-delay: 6s; }
+    .particles span:nth-child(4) { left: 55%; animation-delay: 1.5s; animation-duration: 16s; }
+    .particles span:nth-child(5) { left: 70%; animation-delay: 8s; }
+    .particles span:nth-child(6) { left: 84%; animation-delay: 4.5s; animation-duration: 20s; }
+    .particles span:nth-child(7) { left: 93%; animation-delay: 10s; }
+    @keyframes rise-up {
+      0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.9; }
+      50%  { transform: translate(30px, -50vh) rotate(180deg); }
+      90%  { opacity: 0.7; }
+      100% { transform: translate(-20px, -105vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ---------- Content ---------- */
+    html { scroll-behavior: smooth; }
+    main { position: relative; z-index: 1; }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px 24px;
+    }
+    .hero-inner {
+      max-width: 640px;
+      width: 100%;
+      text-align: center;
+    }
+    .scroll-cue {
+      margin-top: 28px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      opacity: 0.8;
+    }
+    .scroll-cue .arrow { font-size: 1.2rem; animation: bob 2.4s ease-in-out infinite; }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(6px); }
+    }
+
+    /* ---------- About section ---------- */
+    .about {
+      padding: 96px 16px 120px;
+    }
+    .about-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .about-text {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 40px 36px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+    }
+    .eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 0.75rem;
+    }
+    .about h2 {
+      font-weight: normal;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      line-height: 1.2;
+      margin: 0 0 1.25rem;
+    }
+    .about-text p {
+      font-size: 1.08rem;
+      line-height: 1.75;
+      margin: 0 0 1rem;
+    }
+    .quote {
+      margin: 1.75rem 0 0;
+      padding: 0 0 0 1.1rem;
+      border-left: 3px solid var(--accent);
+      font-style: italic;
+      font-size: 1.15rem;
+      line-height: 1.6;
+    }
+    .quote cite {
+      display: block;
+      margin-top: 0.5rem;
+      font-style: normal;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .pillars {
+      display: grid;
+      gap: 20px;
+    }
+    .pillar {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .pillar:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16); }
+    .pillar-icon {
+      flex: 0 0 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--aura);
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+    }
+    .pillar-icon svg { width: 28px; height: 28px; }
+    .pillar h3 {
+      font-weight: normal;
+      font-size: 1.25rem;
+      margin: 0 0 0.35rem;
+    }
+    .pillar p {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    /* Fade-up on scroll (only when JS is running) */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .js .reveal.visible { opacity: 1; transform: none; }
+    .pillar.reveal:nth-child(2) { transition-delay: 0.15s; }
+    .pillar.reveal:nth-child(3) { transition-delay: 0.3s; }
+
+    @media (max-width: 760px) {
+      .about { padding: 64px 16px 80px; }
+      .about-inner { grid-template-columns: 1fr; gap: 24px; }
+      .about-text { padding: 28px 22px; }
+    }
+
+    /* Photo with breathing glow and sound waves */
+    .photo-wrap {
+      position: relative;
+      width: min(300px, 72vw);
+      aspect-ratio: 4 / 5;
+      margin: 0 auto 28px;
+      animation: rise 1.4s ease-out both;
+    }
+    .photo-wrap::before {
+      content: "";
+      position: absolute;
+      inset: -18px;
+      border-radius: 50% 50% 32px 32px;
+      background: var(--aura);
+      filter: blur(18px);
+      animation: breathe 8s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%, 100% { transform: scale(0.94); opacity: 0.55; }
+      50%      { transform: scale(1.04); opacity: 1; }
+    }
+    .photo {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      border-radius: 50% 50% 24px 24px / 38% 38% 24px 24px;
+      border: 4px solid var(--card-border);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      display: block;
+    }
+    .wave {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 100%;
+      height: 80%;
+      border: 2px solid var(--wave);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      opacity: 0;
+      pointer-events: none;
+      animation: sound 4.5s ease-out infinite;
+    }
+    .wave.w2 { animation-delay: 1.5s; }
+    .wave.w3 { animation-delay: 3s; }
+    @keyframes sound {
+      0%   { transform: translate(-50%, -50%) scale(0.9); opacity: 0.8; }
+      100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 28px 24px 32px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+      animation: rise 1.2s ease-out 0.3s both;
+    }
+
+    .breath-label-wrap {
+      position: relative;
+      height: 1.2em;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 1rem;
+    }
+    .breath-label-wrap span {
+      position: absolute; left: 0; right: 0;
+      animation: fadeWord 8s ease-in-out infinite;
+    }
+    .breath-label-wrap .out { animation-delay: 4s; opacity: 0; }
+    @keyframes fadeWord {
+      0%, 45%   { opacity: 1; }
+      50%, 95%  { opacity: 0; }
+      100%      { opacity: 1; }
+    }
+
+    h1 {
+      font-weight: normal;
+      font-size: clamp(2rem, 7vw, 3rem);
+      margin: 0 0 1rem;
+      background: linear-gradient(90deg, var(--accent), var(--text), var(--accent));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 8s linear infinite;
+    }
+    @keyframes shimmer { to { background-position: 200% center; } }
+
+    p {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Sound bath button */
+    .sound-btn {
+      margin-top: 1.6rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.8rem 1.5rem;
+      font: inherit;
+      font-size: 1rem;
+      color: var(--text);
+      background: var(--aura);
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .sound-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); }
+    .sound-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .sound-btn .icon { font-size: 1.1rem; line-height: 1; }
+    .sound-btn.playing { animation: pulse 4s ease-in-out infinite; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 var(--wave); }
+      50%      { box-shadow: 0 0 0 10px transparent; }
+    }
+    .sound-note {
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; }
+      .breath-label-wrap .out, .particles, .wave { display: none; }
+      .bg { transform: none; }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Yoga / retreat room background -->
+  <div class="bg" aria-hidden="true"></div>
+  <div class="bg-overlay" aria-hidden="true"></div>
+  <div class="candle-glow" aria-hidden="true"></div>
+
+  <div class="particles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <main>
+    <section class="hero">
+    <div class="hero-inner">
+    <!-- Photo: sound healing with crystal singing bowls -->
+    <div class="photo-wrap">
+      <span class="wave" aria-hidden="true"></span>
+      <span class="wave w2" aria-hidden="true"></span>
+      <span class="wave w3" aria-hidden="true"></span>
+      <img class="photo" src="images/sound-healing.jpg" alt="A woman in white playing crystal singing bowls with wooden mallets, beside a lit candle on a patterned cloth">
+    </div>
+
+    <div class="card">
+      <div class="breath-label-wrap" aria-hidden="true">
+        <span class="in">Breathe in</span>
+        <span class="out">Breathe out</span>
+      </div>
+      <h1>Hello, I'm Lily.</h1>
+      <p>I am a somatic therapist and sound healer dedicated to helping you regulate your nervous system, ease stress, and reconnect with inner peace through guided breathwork and restorative sound.</p>
+      <button class="sound-btn" id="soundBtn" type="button" aria-pressed="false">
+        <span class="icon" aria-hidden="true">&#9654;</span>
+        <span class="label">Play sound bath</span>
+      </button>
+      <div class="sound-note">Crystal bowl tones · best with headphones</div>
+    </div>
+    <a class="scroll-cue" href="#about">About me <span class="arrow" aria-hidden="true">&#8595;</span></a>
+    </div>
+    </section>
+
+    <!-- About section -->
+    <section class="about" id="about" aria-labelledby="about-title">
+      <div class="about-inner">
+        <div class="about-text reveal">
+          <p class="eyebrow">About Me</p>
+          <h2 id="about-title">Coming home to your body</h2>
+          <p>Stress doesn't only live in the mind. It settles into the body as tight shoulders, shallow breath, restless sleep, and a nervous system that rarely feels safe enough to rest.</p>
+          <p>My work brings together somatic therapy, breathwork, and sound healing to gently guide you out of survival mode. Together we slow down, listen to what your body is telling you, and make space for calm to return, at your own pace.</p>
+          <p>Whether you're moving through burnout, anxiety, or simply longing to feel more grounded, my sessions offer a warm, unhurried place to land.</p>
+          <blockquote class="quote">
+            Your body already knows the way back to peace. I'm here to help you listen.
+            <cite>&mdash; Lily</cite>
+          </blockquote>
+        </div>
+
+        <div class="pillars">
+          <article class="pillar reveal">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 21c-4-3-7-6.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 3.5-3 7-7 10z" />
+              </svg>
+            </div>
+            <div>
+              <h3>Somatic Therapy</h3>
+              <p>Body-based awareness that helps release held tension and teaches your nervous system it is safe to soften again.</p>
+            </div>
+          </article>
+
+          <article class="pillar reveal">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 8h11a3 3 0 1 0-3-3" />
+                <path d="M3 12h15a3 3 0 1 1-3 3" />
+                <path d="M3 16h7" />
+              </svg>
+            </div>
+            <div>
+              <h3>Guided Breathwork</h3>
+              <p>Simple, supportive breathing practices that steady the mind, slow the heart, and bring you back to the present moment.</p>
+            </div>
+          </article>
+
+          <article class="pillar reveal">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 11h16c0 4.5-3.6 8-8 8s-8-3.5-8-8z" />
+                <path d="M9 6c.8-1 .8-2 0-3" />
+                <path d="M12 7c.8-1.3.8-2.7 0-4" />
+                <path d="M15 6c.8-1 .8-2 0-3" />
+              </svg>
+            </div>
+            <div>
+              <h3>Sound Healing</h3>
+              <p>The resonance of crystal and metal singing bowls, inviting deep rest and helping body and mind restore.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    // Fade sections up as they scroll into view
+    (function () {
+      document.documentElement.classList.add('js');
+      const items = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        items.forEach(el => el.classList.add('visible'));
+        return;
+      }
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.15 });
+      items.forEach(el => io.observe(el));
+    })();
+  </script>
+  <script>
+    // Gentle crystal singing-bowl sound bath, generated live in the browser.
+    (function () {
+      const btn = document.getElementById('soundBtn');
+      const icon = btn.querySelector('.icon');
+      const label = btn.querySelector('.label');
+      let ctx, master, reverb, droneNodes = [], timer = null, playing = false;
+
+      // Pentatonic bowl notes (C major pentatonic, low and mid)
+      const notes = [130.81, 196.0, 261.63, 293.66, 329.63, 392.0, 440.0];
+
+      function makeReverb() {
+        const seconds = 5, rate = ctx.sampleRate, len = rate * seconds;
+        const impulse = ctx.createBuffer(2, len, rate);
+        for (let ch = 0; ch < 2; ch++) {
+          const data = impulse.getChannelData(ch);
+          for (let i = 0; i < len; i++) {
+            data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.5);
+          }
+        }
+        const conv = ctx.createConvolver();
+        conv.buffer = impulse;
+        return conv;
+      }
+
+      function setup() {
+        ctx = new (window.AudioContext || window.webkitAudioContext)();
+        master = ctx.createGain();
+        master.gain.value = 0;
+        reverb = makeReverb();
+        const wet = ctx.createGain(); wet.gain.value = 0.55;
+        const dry = ctx.createGain(); dry.gain.value = 0.6;
+        master.connect(dry).connect(ctx.destination);
+        master.connect(reverb).connect(wet).connect(ctx.destination);
+      }
+
+      // One bowl strike: fundamental + inharmonic partials, slowly beating
+      function strike(freq, volume) {
+        const now = ctx.currentTime;
+        const decay = 9 + Math.random() * 5;
+        const partials = [
+          { mult: 1,    gain: 1 },
+          { mult: 2.76, gain: 0.35 },
+          { mult: 5.4,  gain: 0.12 },
+        ];
+        partials.forEach(p => {
+          [0, 0.6].forEach(detune => {   // two close tones = shimmering beat
+            const osc = ctx.createOscillator();
+            const g = ctx.createGain();
+            const pan = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+            osc.type = 'sine';
+            osc.frequency.value = freq * p.mult + detune;
+            const peak = volume * p.gain * 0.5;
+            g.gain.setValueAtTime(0.0001, now);
+            g.gain.exponentialRampToValueAtTime(peak, now + 0.04);
+            g.gain.exponentialRampToValueAtTime(0.0001, now + decay / p.mult * 1.5);
+            osc.connect(g);
+            if (pan) { pan.pan.value = Math.random() * 1.2 - 0.6; g.connect(pan).connect(master); }
+            else { g.connect(master); }
+            osc.start(now);
+            osc.stop(now + decay * 1.6);
+          });
+        });
+      }
+
+      // Soft continuous drone underneath
+      function startDrone() {
+        [65.41, 98.0, 130.81].forEach((f, i) => {
+          const osc = ctx.createOscillator();
+          const g = ctx.createGain();
+          const lfo = ctx.createOscillator();
+          const lfoGain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = f;
+          g.gain.value = 0.05 / (i + 1);
+          lfo.frequency.value = 0.08 + i * 0.03;
+          lfoGain.gain.value = 0.025 / (i + 1);
+          lfo.connect(lfoGain).connect(g.gain);
+          osc.connect(g).connect(master);
+          osc.start(); lfo.start();
+          droneNodes.push(osc, lfo);
+        });
+      }
+
+      function schedule() {
+        const freq = notes[Math.floor(Math.random() * notes.length)];
+        strike(freq, 0.25 + Math.random() * 0.15);
+        timer = setTimeout(schedule, 3500 + Math.random() * 4000);
+      }
+
+      function start() {
+        if (!ctx) setup();
+        ctx.resume();
+        master.gain.cancelScheduledValues(ctx.currentTime);
+        master.gain.setValueAtTime(master.gain.value, ctx.currentTime);
+        master.gain.linearRampToValueAtTime(0.9, ctx.currentTime + 3);
+        startDrone();
+        strike(261.63, 0.35);
+        timer = setTimeout(schedule, 3000);
+      }
+
+      function stop() {
+        clearTimeout(timer);
+        const now = ctx.currentTime;
+        master.gain.cancelScheduledValues(now);
+        master.gain.setValueAtTime(master.gain.value, now);
+        master.gain.linearRampToValueAtTime(0, now + 2.5);
+        const old = droneNodes; droneNodes = [];
+        setTimeout(() => old.forEach(n => { try { n.stop(); } catch (e) {} }), 2700);
+      }
+
+      btn.addEventListener('click', () => {
+        playing = !playing;
+        if (playing) start(); else stop();
+        btn.classList.toggle('playing', playing);
+        btn.setAttribute('aria-pressed', String(playing));
+        icon.innerHTML = playing ? '&#10074;&#10074;' : '&#9654;';
+        label.textContent = playing ? 'Pause sound bath' : 'Play sound bath';
+      });
+    })();
+  </script>
+</body>
+</html>
