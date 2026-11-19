@@ -128,7 +128,7 @@
       position: fixed;
       inset: 0;
       z-index: 0;
-      background: url("images/retreat-room.jpg") center 60% / cover no-repeat;
+      background: url("images/retreat-candlelit.webp") center 55% / cover no-repeat;
       animation: drift-zoom 40s ease-in-out infinite alternate;
     }
     @keyframes drift-zoom {
@@ -155,6 +155,13 @@
       z-index: 0;
       pointer-events: none;
       animation: flicker 5s ease-in-out infinite;
+    }
+    /* Second glow for the lantern on the left */
+    .candle-glow.left {
+      right: auto;
+      left: -8vw;
+      animation-duration: 6.5s;
+      animation-delay: -2s;
     }
     @keyframes flicker {
       0%, 100% { opacity: 0.75; transform: scale(1); }
@@ -490,6 +497,7 @@
   <div class="bg" aria-hidden="true"></div>
   <div class="bg-overlay" aria-hidden="true"></div>
   <div class="candle-glow" aria-hidden="true"></div>
+  <div class="candle-glow left" aria-hidden="true"></div>
 
   <div class="particles" aria-hidden="true">
     <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
@@ -503,7 +511,7 @@
       <span class="wave" aria-hidden="true"></span>
       <span class="wave w2" aria-hidden="true"></span>
       <span class="wave w3" aria-hidden="true"></span>
-      <img class="photo" src="images/sound-healing.jpg" alt="A woman in white playing crystal singing bowls with wooden mallets, beside a lit candle on a patterned cloth">
+      <img class="photo" src="images/sound-healing-candlelit.webp" alt="A woman in a white wrap top playing crystal singing bowls with wooden mallets in a candlelit room, beside a lit candle on a red patterned cloth">
     </div>
 
     <div class="card">
